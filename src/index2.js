@@ -1,5 +1,5 @@
-import { observable, isArrayLike, computed, autorun, when, reaction, action, runInAction } from 'mobx';
-import { Stream } from 'stream';
+import { observable, computed, autorun, when, action } from 'mobx';
+// import { observable, isArrayLike, computed, autorun, when, reaction, action, runInAction } from 'mobx';
 // const arr = observable(['aa', 'bb', 'cc']);
 // const obj = observable({ a: 1, b: 2 });
 // const map = observable(new Map());
@@ -22,40 +22,49 @@ class Store {
   @observable map = new Map();
   @observable str = 'hello';
   @observable num = 10;
-  @observable bool = false;
-  @computed get mixed() {
+  @observable bool = true;
+  // computed
+  @computed get mixed () {
     return store.str + '/' + store.num;
   }
-  @action.bind Bar() {
-    this.str = 'aa';
-    this.num = 100;
-  }
+  // @action
+  // Bar = () => {
+  //   this.str = 'aa';
+  //   this.num = 100;
+  // }
 }
 
 var store = new Store();
-// var foo = computed(function() {
+// var foo = computed(function () {
 //   return store.str + '/' + store.num;
 // });
-// foo.observe(function(change) {
-//   console.log(change);
+// console.log(foo.get())
+// foo.observe(function (change) {
+//   // console.log(change);
 // });
 // store.str = 'world';
 // store.num = 30;
 // console.log(foo.get());
-// autorun(() => {
-//   console.log(store.str + '/' + store.num);
-// });
-when(() => store.bool, () => console.log('this is true'));
-store.bool = true;
-
-reaction(() => [store.str, store.bool], arr => console.log(arr));
-store.str = 'world';
-store.num = 30;
-
-var bar = store.bar;
-bar();
-
-runInAction('modify', () => {
-  store.str = 'haha';
-  store.num = 200;
+autorun(() => {
+  console.log('&&&&&&&&&&&&&&')
+  // console.log(store.str + '/' + store.num);
+  console.log(store.mixed)
 });
+
+// store.str = 'world';
+// store.num = 30;
+// --------------
+when(() => store.bool, () => console.log('this is true'));
+// store.bool = true;
+
+// reaction(() => [store.str, store.bool], arr => console.log(arr));
+// store.str = 'world';
+// store.num = 30;
+
+// var bar = store.bar;
+// bar();
+
+// runInAction('modify', () => {
+//   store.str = 'haha';
+//   store.num = 200;
+// });

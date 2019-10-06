@@ -1,8 +1,11 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const config = {
-  mode: 'development',
-  entry: path.resolve(__dirname, 'src/index.jsx'),
+module.exports = {
+  entry: {
+    index: './src/app/app.js'
+    // index: './src/index2.js'
+  },
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -14,7 +17,7 @@ const config = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: '/node_modules',
+        include: path.resolve(__dirname, '../src'),
         use: {
           loader: 'babel-loader',
           options: {
@@ -25,7 +28,11 @@ const config = {
       }
     ]
   },
-  devtool: 'inline-source-map'
+  devtool: 'inline-source-map',
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './src/app/app.html'
+    }),
+  ]
 };
-
-module.exports = config;
